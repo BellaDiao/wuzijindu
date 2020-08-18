@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物资进度</title>
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+
+<body>
+    <div id="main" style="width:600px;height:400px"></div>
+    <script>
+        var myChart = echarts.init(document.getElementById('main'));
+        var axisData = ['申购', '备料', '采购评审', '采购计划', '采购员接单', '供方接单', '供方发货', '采购到货', '送货', '所检', '入库'];
+        // var data = axisData.map(function(item, i) {
+        //     return Math.round(Math.random() * 1000 * (i + 1));
+        // });
+        var data = [70, 50, 40, 35, 30, 20, 15, 12, 12, 11, 11];
+        var links = data.map(function(item, i) {
+            return {
+                source: i,
+                target: i + 1
+            };
+        });
+        links.pop();
+        option = {
+            title: {
+                text: '物资进度'
+            },
+            tooltip: {},
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: axisData
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                type: 'graph',
+                layout: 'none',
+                coordinateSystem: 'cartesian2d',
+                symbolSize: 40,
+                label: {
+                    show: true
+                },
+                edgeSymbol: ['circle', 'arrow'],
+                edgeSymbolSize: [4, 10],
+                data: data,
+                links: links,
+                lineStyle: {
+                    color: '#2f4554'
+                }
+            }]
+        };
+        myChart.setOption(option);
+    </script>
+    <script>
+        // echarts图表点击跳转=》
+        myChart.on('click', function(param) {
+            // debugger;
+            var name = param.name;
+            if (name == "申购") {
+                window.location.href = "./物资报表.html";
+            } else {
+                return false;
+            }
+        });
+    </script>
+</body>
+
+</html>

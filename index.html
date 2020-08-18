@@ -1,0 +1,136 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>物资进度</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://www.jq22.com/jquery/jquery-2.1.1.js"></script>
+
+    <body>
+
+        <div style="width:625px;margin:0 auto;">
+            <!--  标题进度条 start-->
+            <div class="content" style="margin:30px 0 0 0;width: 100%;">
+                <div class="processBar">
+                    <div id="line0" class="bar">
+                        <div id="point0" class="c-step c-select"></div>
+                    </div>
+                    <div class="text" style="margin: 10px -25px;"><span class='poetry'>申购</span></div>
+                </div>
+                <div class="processBar">
+                    <div id="line1" class="bar">
+                        <div id="point1" class="c-step"></div>
+                    </div>
+                    <div class="text" style="margin: 10px -30px;"><span class='poetry'>备料</span></div>
+                </div>
+                <div class="processBar">
+                    <div id="line2" class="bar">
+                        <div id="point2" class="c-step"></div>
+                    </div>
+                    <div class="text" style="margin: 10px -30px;"><span class='poetry'>采购评审</span></div>
+                </div>
+                <div class="processBar" style="width:10px;">
+                    <div id="line3" class="bar" style="width: 0;">
+                        <div id="point3" class="c-step"></div>
+                    </div>
+                    <div class="text" style="margin: 10px -15px;"><span class='poetry'>采购计划</span></div>
+                </div>
+            </div>
+            <!--  标题进度条 end-->
+            <div style="clear: both;"></div>
+            <div id="MainContent" style="margin:30px 0 0 0;">
+                <div class="content" id="basicInfo">
+                    <span class='poetry'>
+				申购概览
+				<table>
+					<tr><td>申购人</td><td>申购日期</td></tr>
+				</table>
+			</span>
+                </div>
+                <div class="content" id="education">
+                    <span class='poetry'>
+						备料概览<br/><table>
+							<tr><td>备料人</td><td>备料日期</td></tr>
+						</table>
+			</span>
+                </div>
+                <div class="content" id="work">
+                    <span class='poetry'>
+						采购评审概览<br/><table>
+							<tr><td>采购评审人</td><td>采购评审日期</td></tr>
+						</table>
+
+			</span>
+                </div>
+                <div class="content" id="social">
+                    <span class='poetry'>
+						采购计划概览
+						<table>
+							<tr><td>采购计划人</td><td>采购计划日期</td></tr>
+						</table>
+			</span>
+                </div>
+            </div>
+            <div style="clear: both;"></div>
+            <div style="text-align: center;">
+                <button id="previous_step">上一环节</button>
+                <button id="next_step">下一环节</button>
+            </div>
+
+        </div>
+
+    </body>
+    <script>
+        $(document).ready(function() {
+            $("#education").addClass('main-hide');
+            $("#work").addClass('main-hide');
+            $("#social").addClass('main-hide');
+            $('#previous_step').hide();
+            /*上一步*/
+            $('#previous_step').bind('click', function() {
+                index--;
+                ControlContent(index);
+            });
+            /*下一步*/
+            $('#next_step').bind('click', function() {
+                index++;
+                ControlContent(index);
+            });
+        });
+        var index = 0;
+
+        function ControlContent(index) {
+            var stepContents = ["basicInfo", "education", "work", "social"];
+            var key; //数组中元素的索引值
+            for (key in stepContents) {
+                var stepContent = stepContents[key]; //获得元素的值
+                if (key == index) {
+                    if (stepContent == 'basicInfo') {
+                        $('#previous_step').hide();
+                    } else {
+                        $('#previous_step').show();
+                    }
+                    if (stepContent == 'social') {
+                        $('#next_step').hide();
+                    } else {
+                        $('#next_step').show();
+                    }
+                    $('#' + stepContent).removeClass('main-hide');
+                    $('#point' + key).addClass('c-select');
+                    $('#line' + key).removeClass('b-select');
+                } else {
+                    $('#' + stepContent).addClass('main-hide');
+                    if (key > index) {
+                        $('#point' + key).removeClass('c-select');
+                        $('#line' + key).removeClass('b-select');
+                    } else if (key < index) {
+                        $('#point' + key).addClass('c-select');
+                        $('#line' + key).addClass('b-select');
+                    }
+                }
+            }
+
+        }
+    </script>
+
+</html>
